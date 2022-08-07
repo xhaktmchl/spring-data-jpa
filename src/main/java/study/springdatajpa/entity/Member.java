@@ -33,7 +33,9 @@ public class Member {
     public Member(String username, int age, Team team){
         this.username = username;
         this.age = age;
-        this.team = team;
+        if(team != null){ //TODO: 팀을 변결할 때는 반드시 메소드 만들어서 사용.
+            changeTeam(team);
+        }
     }
 
     /*
