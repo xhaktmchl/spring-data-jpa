@@ -56,7 +56,22 @@ class MemberJpaRepositoryTest {
         //삭제 검증
         memberJpaRepository.delete(member1);
         memberJpaRepository.delete(member2);
+
         long deletedCount = memberJpaRepository.count();
         assertThat(deletedCount).isEqualTo(0);
+    }
+
+    @Test
+    public void findByUsernameAndAgeGreaterThan(){
+        Member m1 = new Member("name1", 10);
+        Member m2 = new Member("name1", 20);
+        memberJpaRepository.save(m1);
+        memberJpaRepository.save(m2);
+
+        List<Member> result = memberJpaRepository.findByUsernameAndAgeGreaterThan("name1", 15);
+
+        assertThat(result.get(0).getUsername()).isEqualTo("name1"); // 이름 비교
+        assertThat(result.get(0).getAge()).isEqualTo(20); // 나이비교
+        assertThat(result.size()).isEqualTo(1); // 갯수 비교
     }
 }

@@ -61,4 +61,36 @@ class MemberRepositoryTest { // springdataJpa 기반 테스트
         long deletedCount = memberRepository.count();
         assertThat(deletedCount).isEqualTo(0);
     }
+
+    // 멤버 조회: 유저 이름과, 나이 조건검색으로 조회
+    @Test
+    public void findByUsernameAndAgeGreaterThan(){
+        Member m1 = new Member("name1", 10);
+        Member m2 = new Member("name1", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result = memberRepository.findByUsernameAndAgeGreaterThan("name1", 15);
+
+        assertThat(result.get(0).getUsername()).isEqualTo("name1"); // 이름 비교
+        assertThat(result.get(0).getAge()).isEqualTo(20); // 나이비교
+        assertThat(result.size()).isEqualTo(1); // 갯수 비교
+    }
+
+    // 멤버 조회: 상위 3개 조회
+    @Test
+    public void findTop3(){
+        Member m1 = new Member("name1", 10);
+        Member m2 = new Member("name1", 20);
+        Member m3 = new Member("name1", 30);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+        memberRepository.save(m3);
+
+        List<Member> result = memberRepository.findTop3MemberBy(); // 상위 3개 조회
+
+//        assertThat(result.get(0).getUsername()).isEqualTo("name1"); // 이름 비교
+//        assertThat(result.get(0).getAge()).isEqualTo(10); // 나이비교
+//        assertThat(result.size()).isEqualTo(2); // 갯수 비교
+    }
 }
