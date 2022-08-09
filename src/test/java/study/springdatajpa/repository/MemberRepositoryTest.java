@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import study.springdatajpa.dto.MemberDto;
 import study.springdatajpa.entity.Member;
+import study.springdatajpa.entity.Team;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +24,9 @@ class MemberRepositoryTest { // springdataJpa 기반 테스트
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    TeamRepository teamRepository;
 
     @Test
     public void testMember() {
@@ -121,5 +126,41 @@ class MemberRepositoryTest { // springdataJpa 기반 테스트
         assertThat(result.get(0).getUsername()).isEqualTo("name1"); // 이름 비교
         assertThat(result.get(0).getAge()).isEqualTo(10); // 나이비교
         assertThat(result.size()).isEqualTo(1); // 갯수 비교
+    }
+
+    // 조회: 멤버 이름리스트 전체조회
+    @Test
+    public void findUsernameListTest(){
+        Member m1 = new Member("name1", 10);
+        Member m2 = new Member("name1", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<String> result = memberRepository.findUsernameList();
+
+        assertThat(result.get(0)).isEqualTo("name1"); // 이름 비교
+        assertThat(result.size()).isEqualTo(2); // 갯수 비교
+    }
+
+    // 조회: 멤DTO로 직접 조
+    @Test
+    public void findMemberDtoTest(){
+        Team t1 = new Team("team1");
+        Team t2 = new Team("team2");
+        teamRepository.save(t1);
+        teamRepository.save(t2);
+
+        Member m1 = new Member("name1", 10);
+        Member m2 = new Member("name1", 20);
+        m1.setTeam(t1);
+        m2.setTeam(t2);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<MemberDto> result = memberRepository.findMemberDto();
+
+        assertThat(result.get(0).getUsername()).isEqualTo("name1"); // 이름 비교
+        assertThat(result.get(0).getTeamName()).isEqualTo("team1"); // 나이비교
+        assertThat(result.size()).isEqualTo(2); // 갯수 비교
     }
 }
