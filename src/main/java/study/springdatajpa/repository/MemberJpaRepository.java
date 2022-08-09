@@ -50,4 +50,10 @@ public class MemberJpaRepository {// JPA기반 리파지토리
                 .setParameter("age", age)
                 .getResultList();
     }
+
+    public List<Member> findByUsername(String username){
+        return em.createNamedQuery("Member.findByUsername", Member.class)
+                .setParameter("username", username)
+                .getResultList();
+    }
 }

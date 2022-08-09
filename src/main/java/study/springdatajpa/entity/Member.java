@@ -8,6 +8,11 @@ import javax.persistence.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 빈생성자 접근 protected로 설정
 @ToString(of = {"id", "username", "age"}) // 객체 출력시 컬럼지정하는 어노테이션 ,
+// 네임드 쿼리
+@NamedQuery(
+        name = "Member.findByUsername",
+        query = "select m from Member m where m.username = :username"
+)
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)

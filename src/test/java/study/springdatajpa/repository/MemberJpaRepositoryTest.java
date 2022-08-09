@@ -74,4 +74,17 @@ class MemberJpaRepositoryTest {
         assertThat(result.get(0).getAge()).isEqualTo(20); // 나이비교
         assertThat(result.size()).isEqualTo(1); // 갯수 비교
     }
+
+    @Test
+    public void testNamedQuery(){
+        Member m1 = new Member("name1", 10);
+        Member m2 = new Member("name1", 20);
+        memberJpaRepository.save(m1);
+        memberJpaRepository.save(m2);
+
+        List<Member> result = memberJpaRepository.findByUsername("name1");
+
+        assertThat(result.get(0).getUsername()).isEqualTo("name1"); // 이름 비교
+        assertThat(result.size()).isEqualTo(2); // 갯수 비교
+    }
 }

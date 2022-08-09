@@ -93,4 +93,33 @@ class MemberRepositoryTest { // springdataJpa 기반 테스트
 //        assertThat(result.get(0).getAge()).isEqualTo(10); // 나이비교
 //        assertThat(result.size()).isEqualTo(2); // 갯수 비교
     }
+
+    // 조회: 멤버 이름으로 , 네임드 쿼리 테스트
+    @Test
+    public void testNamedQuery(){
+        Member m1 = new Member("name1", 10);
+        Member m2 = new Member("name1", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result = memberRepository.findByUsername("name1");
+
+        assertThat(result.get(0).getUsername()).isEqualTo("name1"); // 이름 비교
+        assertThat(result.size()).isEqualTo(2); // 갯수 비교
+    }
+
+    // 조회: 멤버 이름으로, 나이로
+    @Test
+    public void findByUsernameAndAgeTest(){
+        Member m1 = new Member("name1", 10);
+        Member m2 = new Member("name1", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result = memberRepository.findByUsernameAndAge("name1",10);
+
+        assertThat(result.get(0).getUsername()).isEqualTo("name1"); // 이름 비교
+        assertThat(result.get(0).getAge()).isEqualTo(10); // 나이비교
+        assertThat(result.size()).isEqualTo(1); // 갯수 비교
+    }
 }
