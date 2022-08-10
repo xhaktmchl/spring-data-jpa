@@ -163,4 +163,17 @@ class MemberRepositoryTest { // springdataJpa 기반 테스트
         assertThat(result.get(0).getTeamName()).isEqualTo("team1"); // 나이비교
         assertThat(result.size()).isEqualTo(2); // 갯수 비교
     }
+
+
+    @Test
+    public void returnType() {
+        Member m1 = new Member("AAA", 10);
+        Member m2 = new Member("BBB", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result1 = memberRepository.findListByUsername("AAA");
+        Member result2 = memberRepository.findMemberByUsername("AAA");
+        Optional<Member> result3 = memberRepository.findOptionalMemberByUsername("AAA");
+    }
 }

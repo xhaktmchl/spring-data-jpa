@@ -8,6 +8,7 @@ import study.springdatajpa.entity.Member;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -39,4 +40,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 파라미터 바인딩2: 컬렉션 바인딩
     @Query("select m from Member m where m.username in :names")
     List<Member> findByNames(@Param("names") Collection<String> names);
+
+    /*
+    반환타입은 스플링데이터JPA에서 알아서 인식
+     */
+    List<Member> findListByUsername(String username); // 컬렉션
+    Member findMemberByUsername(String username); // 단건
+    Optional<Member> findOptionalMemberByUsername(String username); // 단건 Optional
 }
