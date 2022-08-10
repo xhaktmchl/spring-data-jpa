@@ -210,4 +210,21 @@ class MemberRepositoryTest { // springdataJpa 기반 테스트
         assertThat(page.hasNext()).isTrue(); //다음 페이지가 있는가?
 
     }
+
+    /*
+   벌크성 수정쿼리
+    */
+    @Test
+    public void bulkAgePlus(){
+        // given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 10));
+        memberRepository.save(new Member("member3", 4));
+
+        //when
+        int result = memberRepository.bulkAgePlus(5);
+
+        //then
+        assertThat(result).isEqualTo(2);
+    }
 }

@@ -117,4 +117,22 @@ class MemberJpaRepositoryTest {
         assertThat(result.size()).isEqualTo(3);
         assertThat(totalCount).isEqualTo(5); // 갯수 비교
     }
+
+
+    /*
+    벌크성 수정쿼리
+     */
+    @Test
+    public void bulkAgePlus(){
+        // given
+        memberJpaRepository.save(new Member("member1", 10));
+        memberJpaRepository.save(new Member("member2", 10));
+        memberJpaRepository.save(new Member("member3", 4));
+
+        //when
+        int result = memberJpaRepository.bulkAgePlus(5);
+
+        //then
+        assertThat(result).isEqualTo(2);
+    }
 }
