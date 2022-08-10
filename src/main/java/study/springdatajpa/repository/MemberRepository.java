@@ -2,6 +2,7 @@ package study.springdatajpa.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -63,4 +64,30 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying(clearAutomatically = true) // 어벧이트 쿼리문에는 꼭붙여줘야 업데이트가 된다. , clearAutomatically = true 벌크연산후 영속성 컨텍스트와 디비의 값이 다르기 때문에 자동 초기화 설정
     @Query("update Member m set m.age = m.age+1 where m.age >= 5")
     int bulkAgePlus(@Param("age") int age);
+
+    /*
+    페치조인
+     */
+    // 1.JPQL 페치조인
+    @Query("select m from Member m left join fetch m.team")
+    List<Member> findMemberFetchJoin();
+
+    //2.EntityGraph
+    @Override
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findAll();
+
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findMemberEntityGraph();
+
+    //3.EntityGrapj+ JPQL
+    @EntityGraph(attributePaths = {"team"})
+    @Query("select m from Member m")
+    List<Member> findMemberEntityGraphAndQuery();
+
+    //4.NanedEntityGraph
+    @EntityGraph("Member.all")
+    @Query("select m from Member m")
+    List<Member> findMemberNamedEntityGraph();
+
 }
