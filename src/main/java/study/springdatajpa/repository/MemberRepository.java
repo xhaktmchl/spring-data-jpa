@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
     // 쿼리메소드1: 메소드 이름으로 쿼리
     List<Member> findByUsernameAndAgeGreaterThan(String username, int age); // 멤버 조회: 유저 이름과, 나이 초과 조건검색으로 조회
 
@@ -77,6 +77,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findAll();
 
     @EntityGraph(attributePaths = {"team"})
+    @Query("select m from Member m")
     List<Member> findMemberEntityGraph();
 
     //3.EntityGrapj+ JPQL
@@ -105,6 +106,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     /*
     Lock
      */
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    List<Member> findByUsernameLock(String name);
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)
+//    List<Member> findByUsernameLock(String name);
 }

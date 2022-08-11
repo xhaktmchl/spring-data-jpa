@@ -278,4 +278,41 @@ class MemberRepositoryTest { // springdataJpa 기반 테스트
         member.setUsername("member2");
         em.flush(); //Update Query 실행X
     }
+
+    /*
+    사용자 정의 리포지토리 구현
+     */
+    @Test
+    public void callCustom(){
+        List<Member> result = memberRepository.findMemberCustom();
+    }
+
+    /*
+    Auditing 스프링데이터Jpaㅇ 테스트
+     */
+    @Test
+    public void JpaEventBaseEntity() throws Exception{
+        //given
+        Member member = new Member("member1");
+        memberRepository.save(member);//@PrePersist 동작
+
+        Thread.sleep(100);
+        member.setUsername("member2");
+
+        em.flush();//@PreUpdate 동작
+        em.clear();
+        //when
+        Member findMember = memberRepository.findById(member.getId()).get();
+
+        //then
+        System.out.println("findMember.createdDate = " +
+                findMember.getCreatedDate());
+        System.out.println("findMember.updatedDate = " +
+                findMember.getLastModifiedDate());
+        System.out.println("findMember.createdBy = " +
+                findMember.getCreatedBy());
+        System.out.println("findMember.updatedDate = " +
+                findMember.getLastModifiedBy());
+
+    }
 }
