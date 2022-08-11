@@ -8,6 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import study.springdatajpa.dto.MemberDto;
 import study.springdatajpa.entity.Member;
 import study.springdatajpa.repository.MemberRepository;
 
@@ -45,8 +46,22 @@ public class MemberController {
      */
     @GetMapping("/members") // /members?page=0&size=3&sort=id,desc&sort=username,desc
     //@PageableDefault : 개별 페이징 설정
-    public Page<Member> list(@PageableDefault(size = 5,  sort = "username", direction =  Sort.Direction.DESC) Pageable pageable){
+    public Page<MemberDto> list(@PageableDefault(size = 5,  sort = "username", direction =  Sort.Direction.DESC) Pageable pageable){
         Page<Member> page = memberRepository.findAll(pageable);
-        return page;
+        // DTO로 변환
+        Page<MemberDto> map = page.map(member -> new MemberDto(member.getId(), member.getUsername(), null));
+        return map;
+    }
+
+    /*
+    페이징과 최적화
+     */
+    @GetMapping("/members/paging") // /members?page=0&size=3&sort=id,desc&sort=username,desc
+    //@PageableDefault : 개별 페이징 설정
+    public Page<MemberDto> list2(@PageableDefault(size = 5,  sort = "username", direction =  Sort.Direction.DESC) Pageable pageable){
+        Page<Member> page = memberRepository.findAll(pageable);
+        // DTO로 변환
+        Page<MemberDto> pageDto = page.map(MemberDto::new);
+        return pageDto;
     }
 }
