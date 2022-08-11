@@ -19,6 +19,7 @@ spring:
       pageable:
         default-page-size: 10 # 기본 페이지 사이즈
         max-page-size: 2000 # 최대 페이지 사이즈
+        #one-indexed-parameters: true # 시작 페이지를 1로 , 하지만 한계가 있어 비추천
 
 logging.level:
   org.hibernate.SQL: debug # sql로그로 기록 보기
