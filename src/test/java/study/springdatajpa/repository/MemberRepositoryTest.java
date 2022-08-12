@@ -315,4 +315,30 @@ class MemberRepositoryTest { // springdataJpa 기반 테스트
                 findMember.getLastModifiedBy());
 
     }
+
+    /*
+    프로젝션
+     */
+    @Test
+    public void projections() {
+        // given
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("teamB");
+        teamRepository.save(teamA);
+        teamRepository.save(teamB);
+
+        Member member1 = new Member("member1", 10, teamA);
+        Member member2 = new Member("member2", 10, teamA);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+        List<UsernameOnly> result = memberRepository.findProjectionsByUsername(member1.getUsername());
+
+        for (UsernameOnly usernameOnly : result) {
+            System.out.println("member.getUsername() = " + usernameOnly);
+        }
+    }
 }
