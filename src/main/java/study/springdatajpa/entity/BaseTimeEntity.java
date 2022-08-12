@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class BaseTimeEntity {
     @CreatedBy
     @Column(updatable = false)
-    private LocalDateTime createdBy;
+    private String createdBy;
     @LastModifiedBy
-    private LocalDateTime lastModifiedBy;
+    private String lastModifiedBy;
 }
