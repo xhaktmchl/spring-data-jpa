@@ -1,7 +1,9 @@
 package study.springdatajpa.entity;
 
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,9 +17,9 @@ import java.time.LocalDateTime;
 @Getter
 // 시간을 다로 BaseEntity로 두고 싶을 때 분리하고, BaseEntity에 상속
 public class BaseTimeEntity {
-    @CreatedDate
+    @CreatedBy
     @Column(updatable = false)
-    private LocalDateTime createdDate;
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+    private LocalDateTime createdBy;
+    @LastModifiedBy
+    private LocalDateTime lastModifiedBy;
 }

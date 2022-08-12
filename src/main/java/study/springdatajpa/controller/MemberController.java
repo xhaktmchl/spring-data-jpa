@@ -19,10 +19,10 @@ import javax.annotation.PostConstruct;
 public class MemberController {
     private final MemberRepository memberRepository;
 
-    @PostConstruct
-    public void init() {
-        memberRepository.save(new Member("userA"));
-    }
+//    @PostConstruct
+//    public void init() {
+//        memberRepository.save(new Member("userA"));
+//    }
 
     /*
     도메인 컨버터 사용 전
